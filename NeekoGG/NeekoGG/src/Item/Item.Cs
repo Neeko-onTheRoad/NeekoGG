@@ -1,7 +1,7 @@
 ﻿namespace nk {
     public class Item {
 
-        public string      Name        { get; }= "N/A";
+        public string      Name        { get; } = "N/A";
         public NamedSprite Icon        { get; } = new NamedSprite();
         public int?        Price       { get; } = null;
         public string?     Featues     { get; } = null;
@@ -10,7 +10,7 @@
         public List<Item>? ChildItems  { get; } = null;
 
         public  ItemStat          Stat    { get; } = new ItemStat();
-        public  List<ItemUseStat> UseStat { get; } = new List<ItemUseStat>()
+        public  List<ItemUseStat> UseStat { get; } = new List<ItemUseStat>();
 
     }
 }

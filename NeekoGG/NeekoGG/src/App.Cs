@@ -1,7 +1,10 @@
-﻿namespace nk {
+﻿using nk.Client;
+
+namespace nk {
     public class App {
         static void Main(string[] args) {
-            Console
+            NeekoGG neekoGG = new NeekoGG();
+            neekoGG.Run();
         }
     }
 }

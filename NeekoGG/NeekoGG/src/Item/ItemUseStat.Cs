@@ -1,8 +1,8 @@
 ﻿namespace nk {
 	public class ItemUseStat {
 
-		public readonly static NamedSprite IconRefill;
-		public readonly static NamedSprite IconConsum;
+		public static NamedSprite IconRefill { get; }
+		public static NamedSprite IconConsum { get; }
 
 		static ItemUseStat() {
 			IconRefill = new NamedSprite(Res.Icon.Item.Use.Refill);
@@ -14,13 +14,13 @@
 			RegenInHome = 1,
 		}
 		
-		public readonly byte?         MaxCount    = 0;
-		public readonly float?        CoolTime    = 0f;
-		public readonly byte          Flags       = 0;
-		public readonly string?       Name        = null;
-		public readonly InhabitString Description = new InhabitString();
+		private byte?         MaxCount    { get; } = 0;
+		private float?        CoolTime    { get; } = 0f;
+		private byte          Flags       { get; } = 0;
+		private string?       Name        { get; } = null;
+		private InhabitString Description { get; } = new InhabitString();
 
-		private byte?  remainingCount    = 0; 
+		private byte?  remainingCount    = 0;
 		private float? remainingCoolTime = 0f;
 
 		public ItemUseStat(

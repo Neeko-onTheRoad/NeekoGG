@@ -2,20 +2,18 @@
 
 namespace nk {
 	public class InhabitStringItem {
-		private object? value;
-
-		public object? Value {
-			get { return value; }
+		public object Value {
+			get { return Value; }
 			set {
 				try {
 					if (value == null) {
-						this.value = "";
+						Value = "";
 						return;
 					}
 
-					else if (value is string)      this.value = value;
-					else if (value is NamedSprite) this.value = value;
-					else if (value is Color)       this.value = value;
+					else if (value is string)      Value = value;
+					else if (value is NamedSprite) Value = value;
+					else if (value is Color)       Value = value;
 
 					else throw new Exception();
 				}
@@ -26,22 +24,22 @@ namespace nk {
 		}
 
 		public InhabitStringItem() {
-			Value = null;
+			Value = "";
 		}
 		
-		public InhabitStringItem(object? _value) {
+		public InhabitStringItem(object _value) {
 			Value = _value;
 		}
 
 		public string ToElementString() {
-			return $"{value?.GetType().Name}: {value?.ToString()}";
+			return $"{Value?.GetType().Name}: {Value?.ToString()}";
 		}
 
 		public override string ToString() {
-			if (value is string) return (string)value;
+			if (Value is string) return (string)Value;
 
-			if (value is NamedSprite) {
-				NamedSprite result = (NamedSprite)value;
+			if (Value is NamedSprite) {
+				NamedSprite result = (NamedSprite)Value;
 				return $"[file: {result.Name}]";
 			}
 
