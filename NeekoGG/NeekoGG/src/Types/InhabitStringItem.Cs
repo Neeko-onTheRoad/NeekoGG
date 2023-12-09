@@ -13,9 +13,9 @@ namespace nk {
 						return;
 					}
 
-					else if (value is string)        this.value = value;
+					else if (value is string)      this.value = value;
 					else if (value is NamedSprite) this.value = value;
-					else if (value is Color)         this.value = value;
+					else if (value is Color)       this.value = value;
 
 					else throw new Exception();
 				}
