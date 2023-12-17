@@ -1,5 +1,5 @@
 ﻿namespace nk.Client {
-	public class GameTime {
+	public class ClientTime {
 		
 		private float deltaTime = 0f;
 		private float timeScale = 1f;
@@ -22,7 +22,7 @@
 			get; private set;
 		}
 
-		public GameTime() { }
+		public ClientTime() { }
 
 		public void Update(float _deltaTime, float _totlaTimeElapsed) {
 			deltaTime        = _deltaTime;

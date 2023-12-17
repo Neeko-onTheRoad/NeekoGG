@@ -8,13 +8,21 @@ namespace nk.Res {
 				public static NamedTexture Consum { get; }
 
 				static Use() {
-					Texture refillTexture = new Texture("./res/Icon/ItemUse_Refill.png");
-					Texture consumTexture = new Texture("./res/Icon/ItemUse_Consum.png");
+					Texture refillTexture = new Texture("./res/Icons/ItemUse_Refill.png");
+					Texture consumTexture = new Texture("./res/Icons/ItemUse_Consum.png");
 
 					Refill = new NamedTexture(refillTexture, "Icon: ItemUse_Refill");
 					Consum = new NamedTexture(consumTexture, "Icon: ItemUse_Consum");
 				}
 			}
+		}
+	}
+
+	public static class Fonts {
+		public static Font SuiteLight { get; }
+
+		static Fonts() {
+			SuiteLight = new Font(".\\NeekoGG\\res\\Fonts\\SUITE-Light.ttf");
 		}
 	}
 }
