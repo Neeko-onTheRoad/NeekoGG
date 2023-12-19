@@ -11,28 +11,30 @@ namespace nk.Client {
 
 		protected static Vector2u WindowSize{ get; private set; }
 
-		public RenderWindow Window     { get; protected set; }
-		public ClientTime   ClientTime { get; protected set; }
+		private RenderWindow window;
+		public  RenderWindow Window     { get { return window; } protected set { window = value; } }
+		public  ClientTime   ClientTime { get; protected set; }
 
-		protected struct mouseEvent() {
-			public bool     LeftClicked   = false;
-			public bool     RightClicked  = false;
-			public Vector2i Position      = new Vector2i(0, 0);
-			public Vector2i DeltaPosition = new Vector2i(0, 0);
-		}
+		protected MouseListener    MouseListener    = new MouseListener();
+		protected KeyboardListener KeyboardListener = new KeyboardListener();
 
-		protected mouseEvent MouseStatus;
+		protected List<ListenerBase> Listeners = new List<ListenerBase>();
 
 		protected WindowBase(string _title) {
-			Window          = new RenderWindow(new VideoMode(0, 0), "");
+			window          = new RenderWindow(new VideoMode(0, 0), "");
 			WindowTitle     = _title;
 			TargetFPS       = 144;
 			TimeUntilUpdate = 1f/TargetFPS;
 			ClientTime      = new ClientTime();
+
+			Listeners.Add(MouseListener);
+			Listeners.Add(KeyboardListener);
 		}
 
 		public void Run() {
 			Initialize();
+
+			foreach (var i in Listeners) i.Initialize(window);
 
 			SetWindowSize(1f);
 
@@ -43,10 +45,12 @@ namespace nk.Client {
 
 			Clock clock = new Clock();
 
-			Window.MouseButtonPressed += OnMouseButtonPressed;
-
 			while(Window.IsOpen) {
+				foreach (var i in Listeners) i.Update();
+
 				Window.DispatchEvents();
+
+				if (MouseListener.Status.LeftClicked == true) Console.WriteLine(MouseListener.Status.LeftClicked);
 
 				totalTimeElapsed    = clock.ElapsedTime.AsSeconds();
 				deltaTime           = totalTimeElapsed - previousTimeElapsed;
@@ -84,15 +88,6 @@ namespace nk.Client {
 			Window.Close();
 			Window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None);
 			Window.Closed += WindowClosed;
-		}
-
-		public Vector2i GetMouseLocationOnWindow() {
-			return Mouse.GetPosition() - Window.Position;
-			
-		}
-		
-		public void OnMouseButtonPressed(object? _sender, MouseButtonEventArgs _event) {
-			if 
 		}
 	}
 }
