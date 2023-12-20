@@ -1,28 +1,31 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System.Runtime.CompilerServices;
 
 namespace nk.Client {
-	public class MouseStatus() : StatusBase {
-		public bool     LeftClicked    = false;
-		public bool     RightClicked   = false;
-		public bool     MiddleClicked  = false;
-		public bool     LeftRelesed    = false;
-		public bool     RightRelesed   = false;
-		public bool     MiddleRelesed  = false;
-		public bool     LeftClicking   = false;
-		public bool     RightClicking  = false;
-		public bool     MiddleClicking = false;
-		public Vector2i Position       = new Vector2i(0, 0);
-		public Vector2i DeltaPosition  = new Vector2i(0, 0);
+	public class MouseStatus() {
+		public bool     LeftClicked     = false;
+		public bool     RightClicked    = false;
+		public bool     MiddleClicked   = false;
+		public bool     LeftRelesed     = false;
+		public bool     RightRelesed    = false;
+		public bool     MiddleRelesed   = false;
+		public bool     LeftClicking    = false;
+		public bool     RightClicking   = false;
+		public bool     MiddleClicking  = false;
+		public Vector2i Position        = new Vector2i(0, 0);
+		public float    WheelLevel      = 0f;
 	}
 	
-	public class MouseListener : ListenerBase {
+	public static class MouseListener {
+	
+		private static float deltaTime;
 
-		private MouseStatus status = new MouseStatus();
-		public override MouseStatus Status { get { return status; } }
+		private static MouseStatus status = new MouseStatus();
+		public  static MouseStatus Status { get { return status; } private set { status = value; } }
 
-		public override void Initialize(RenderWindow _window) {
+		public static void Initialize(RenderWindow _window) {
 			_window.MouseButtonPressed += (object? _sender, MouseButtonEventArgs _event) => {
 				if(_event.Button == Mouse.Button.Left) {
 					Status.LeftClicked  = true;
@@ -58,14 +61,18 @@ namespace nk.Client {
 			};
 
 			_window.MouseMoved += (object? _sender, MouseMoveEventArgs _event) => {
-				Vector2i position = new Vector2i(_event.X, _event.Y);
+				Status.Position = new Vector2i(_event.X, _event.Y);
+			};
 
-				Status.DeltaPosition -= position;
-				Status.Position       = position;
+			_window.MouseWheelScrolled += (object? _sender, MouseWheelScrollEventArgs _event) => {
+				Status.WheelLevel = _event.Delta;
+				Status.Position = new Vector2i(_event.X, _event.Y); 
 			};
 		}
 
-		public override void Update() {
+		public static void Update(float _deltaTime) {
+			deltaTime = _deltaTime;
+
 			Status.LeftClicked   = false;
 			Status.RightClicked  = false;
 			Status.MiddleClicked = false;
@@ -73,6 +80,8 @@ namespace nk.Client {
 			Status.LeftRelesed   = false;
 			Status.RightRelesed  = false;
 			Status.MiddleRelesed = false;
+
+			Status.WheelLevel    = 0f;
 		}
 	}
 }
