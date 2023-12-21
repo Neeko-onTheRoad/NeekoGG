@@ -15,6 +15,7 @@ namespace nk.Client {
 		public bool     RightClicking   = false;
 		public bool     MiddleClicking  = false;
 		public Vector2i Position        = new Vector2i(0, 0);
+		public Vector2i PositionDelta   = new Vector2i(0, 0);
 		public float    WheelLevel      = 0f;
 	}
 	
@@ -25,7 +26,7 @@ namespace nk.Client {
 		private static MouseStatus status = new MouseStatus();
 		public  static MouseStatus Status { get { return status; } private set { status = value; } }
 
-		public static void Initialize(RenderWindow _window) {
+		public static void Initialize(ref RenderWindow _window) {
 			_window.MouseButtonPressed += (object? _sender, MouseButtonEventArgs _event) => {
 				if(_event.Button == Mouse.Button.Left) {
 					Status.LeftClicked  = true;
@@ -61,11 +62,16 @@ namespace nk.Client {
 			};
 
 			_window.MouseMoved += (object? _sender, MouseMoveEventArgs _event) => {
-				Status.Position = new Vector2i(_event.X, _event.Y);
+				Vector2i position = new Vector2i(_event.X, _event.Y);
+
+				Status.PositionDelta = Status.Position - position;
+				Status.Position = position;
 			};
 
 			_window.MouseWheelScrolled += (object? _sender, MouseWheelScrollEventArgs _event) => {
 				Status.WheelLevel = _event.Delta;
+
+				
 				Status.Position = new Vector2i(_event.X, _event.Y); 
 			};
 		}

@@ -9,6 +9,8 @@ namespace nk.Client {
 		public int    TargetFPS       = 144;
 		public float  TimeUntilUpdate = 1f/144;
 
+		protected float DeltaTime = 0f;
+
 		protected static Vector2u WindowSize{ get; private set; }
 
 		private RenderWindow window;
@@ -26,7 +28,7 @@ namespace nk.Client {
 		public void Run() {
 			Initialize();
 
-			SetWindowSize(1f);
+			CreateNewWindow(1f);
 
 			float totalTimeBeforeUpdate = 0f;
 			float previousTimeElapsed   = 0f;
@@ -36,10 +38,6 @@ namespace nk.Client {
 			Clock clock = new Clock();
 
 			while(Window.IsOpen) {
-				UpdateEventHandlers(deltaTime);
-				Window.DispatchEvents();
-
-				Console.WriteLine((float)MouseListener.Status.WheelLevel);
 
 				totalTimeElapsed    = clock.ElapsedTime.AsSeconds();
 				deltaTime           = totalTimeElapsed - previousTimeElapsed;
@@ -47,7 +45,12 @@ namespace nk.Client {
 
 				totalTimeBeforeUpdate += deltaTime;
 
+				DeltaTime = deltaTime;
+
 				if (totalTimeBeforeUpdate >= TimeUntilUpdate) {
+					UpdateEventHandlers(deltaTime);
+					Window.DispatchEvents();
+
 					ClientTime.Update(totalTimeBeforeUpdate, clock.ElapsedTime.AsSeconds());
 					totalTimeBeforeUpdate = 0f;
 
@@ -61,15 +64,11 @@ namespace nk.Client {
 			}			
 		}
 
-		public abstract void Initialize();
-		public abstract void Update(ClientTime _gameTime);
-		public abstract void Draw(ClientTime _gameTime);
+		protected abstract void Initialize();
+		protected abstract void Update(ClientTime _gameTime);
+		protected abstract void Draw(ClientTime _gameTime);
 
-		private void WindowClosed(object? sender, EventArgs e) {
-			Window.Close();
-		}
-
-		public void SetWindowSize(float _size) {
+		protected void CreateNewWindow(float _size) {
 			WindowSize = new Vector2u(
 				(uint)(VideoMode.DesktopMode.Height * (4f / 6f) * (16f / 9f) * _size),
 				(uint)(VideoMode.DesktopMode.Height * (4f / 6f) * _size)
@@ -81,8 +80,12 @@ namespace nk.Client {
 			InitializeEventHandlers();
 		}
 
+		private void WindowClosed(object? sender, EventArgs e) {
+			Window.Close();
+		}
+
 		private void InitializeEventHandlers() {
-			MouseListener.Initialize(Window);
+			MouseListener.Initialize(ref window);
 		}
 
 		private void UpdateEventHandlers(float _deltaTime) {

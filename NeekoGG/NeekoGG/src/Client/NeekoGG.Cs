@@ -7,54 +7,68 @@ namespace nk.Client {
 
 		public NeekoGG() : base ("Neeko.GG") {}
 
-		public override void Initialize() {
+		
+
+		protected override void Initialize() {
 			
 		}
 
-		public override void Update(ClientTime _gameTime) {
+		private static class Sprites {
+			public static List<Drawable> SpriteUnion;
 
+			public static VertexArray    Background;
+			public static RectangleShape BgFill;
+			public static RectangleShape TeskBar;
+
+			static Sprites() {
+
+				SpriteUnion = new List<Drawable>();
+
+				//* ---------------------------------------| Make Background |--------------------------------------- *//
+
+				{
+					Background = new VertexArray(PrimitiveType.Quads, 4);
+					Background[0] = new Vertex(new Vector2f(0,            0           ), new Color(73,  0, 122));
+					Background[1] = new Vertex(new Vector2f(WindowSize.X, 0           ), new Color(136, 0, 109));
+					Background[2] = new Vertex(new Vector2f(WindowSize.X, WindowSize.Y), new Color(73,  0, 122));
+					Background[3] = new Vertex(new Vector2f(0,            WindowSize.Y), new Color(30,  0, 129));
+					SpriteUnion.Add(Background);
+
+					BgFill = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y));
+					BgFill.FillColor =  new Color(0, 0, 0, 150);
+					SpriteUnion.Add(BgFill);
+				}
+				
+				//* ---------------------------------------| Make Upper Line |--------------------------------------- *//
+
+				{
+					TeskBar = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y * 0.05f));
+					TeskBar.FillColor = new Color(0, 0, 0, 50);
+					SpriteUnion.Add(TeskBar);
+				}
+			}
 		}
 
-		public override void Draw(ClientTime gameTime) {
-			//string totalTime = ClientTime.TotalTimeElapsed.ToString("0.000");
-			//string deltaTime = ClientTime.DeltaTime.ToString("0.00000");
-			//string fps = (1f / ClientTime.DeltaTime).ToString("0.00");
+		private object? clicking = null;
 
-			//Text tt = new Text(totalTime, Res.Fonts.SuiteLight);
-			//Text dt = new Text(deltaTime, Res.Fonts.SuiteLight);
-			//Text fs = new Text(fps, Res.Fonts.SuiteLight);
+		protected override void Update(ClientTime _gameTime) {
 
-			//tt.Position = new Vector2f(4f, 8f);
-			//dt.Position = new Vector2f(4f, 28f);
-			//fs.Position = new Vector2f(4f, 48f);
-
-			//Window.Draw(tt);
-			//Window.Draw(dt);
-			//Window.Draw(fs);
-
-			//* ---------------------------------------| Draw Background |--------------------------------------- *//
-
-			{
-				VertexArray background = new VertexArray(PrimitiveType.Quads, 4);
-					background[0] = new Vertex(new Vector2f(0,            0           ), new Color(73,  0, 122));
-					background[1] = new Vertex(new Vector2f(WindowSize.X, 0           ), new Color(136, 0, 109));
-					background[2] = new Vertex(new Vector2f(WindowSize.X, WindowSize.Y), new Color(73,  0, 122));
-					background[3] = new Vertex(new Vector2f(0,            WindowSize.Y), new Color(30,  0, 129));
-
-				Window.Draw(background);
-
-				RectangleShape bgFill = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y));
-				bgFill.FillColor = new Color(0, 0, 0, 150);
-				Window.Draw(bgFill);
+			if (MouseListener.Status.Position.Y <= Window.Size.Y * 0.05f) {
+				if (MouseListener.Status.LeftClicked) {
+					clicking = Sprites.TeskBar;
+				}
 			}
 
-			//* ---------------------------------------| Draw Upper Line |--------------------------------------- *//
+			if (clicking != null && !MouseListener.Status.LeftClicking) clicking = null;
 
-			{
-				RectangleShape teskBar = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y * 0.05f));
-				teskBar.FillColor = new Color(0, 0, 0, 50);
-				Window.Draw(teskBar);
+			if (clicking == Sprites.TeskBar) {
+				Window.Position -= MouseListener.Status.PositionDelta ;
+			}
+		}
 
+		protected override void Draw(ClientTime gameTime) {
+			foreach (var sprite in Sprites.SpriteUnion) {
+				Window.Draw(sprite);
 			}
 		}
 	}
