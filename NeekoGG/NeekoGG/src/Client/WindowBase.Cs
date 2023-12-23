@@ -6,10 +6,10 @@ namespace nk.Client {
 	public abstract class WindowBase {
 		
 		public string WindowTitle     = "Neeko.GG";
-		public int    TargetFPS       = 144;
-		public float  TimeUntilUpdate = 1f/144;
+		public int    TargetFPS       = 60;
+		public float  TimeUntilUpdate = 1f/60;
 
-		protected float DeltaTime = 0f;
+		protected float DeltaTime   = 0f;
 
 		protected static Vector2u WindowSize{ get; private set; }
 
@@ -26,8 +26,6 @@ namespace nk.Client {
 		}
 
 		public void Run() {
-			Initialize();
-
 			CreateNewWindow(1f);
 
 			float totalTimeBeforeUpdate = 0f;
@@ -55,8 +53,6 @@ namespace nk.Client {
 					totalTimeBeforeUpdate = 0f;
 
 					Update(ClientTime);
-
-					Window.Clear();
 					Draw(ClientTime);
 					Window.Display();
 				}
@@ -74,9 +70,10 @@ namespace nk.Client {
 				(uint)(VideoMode.DesktopMode.Height * (4f / 6f) * _size)
 			);
 			Window.Close();
-			Window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None);
+			Window      = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None);
 			Window.Closed += WindowClosed;
 			
+			Initialize();
 			InitializeEventHandlers();
 		}
 

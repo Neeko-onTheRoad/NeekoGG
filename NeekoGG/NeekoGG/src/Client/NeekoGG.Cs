@@ -1,4 +1,4 @@
-﻿using SFML.Graphics;
+﻿using SFML.Graphics;	
 using SFML.System;
 using SFML.Window;
 
@@ -7,10 +7,28 @@ namespace nk.Client {
 
 		public NeekoGG() : base ("Neeko.GG") {}
 
-		
+		private object? clicking = null;
 
 		protected override void Initialize() {
-			
+			Window.MouseButtonPressed += (object? _sender, MouseButtonEventArgs _event) => {
+				if (_event.Button == Mouse.Button.Left) {
+					if (MouseListener.Status.Position.Y <= Sprites.TitleBar.Size.Y) {
+						clicking = Sprites.TitleBar;
+					}
+				}
+			};
+
+			Window.MouseButtonReleased += (object? _sender, MouseButtonEventArgs _event) => {
+				if (_event.Button == Mouse.Button.Left) {
+					if (clicking != null) clicking = null;
+				}
+			};
+
+			Window.MouseMoved += (object? _sender, MouseMoveEventArgs _event) => {
+				if (clicking == Sprites.TitleBar) {
+					Window.Position -= (MouseListener.Status.DragStartPosition - new Vector2i(_event.X ,_event.Y));
+				}
+			};
 		}
 
 		private static class Sprites {
@@ -18,7 +36,7 @@ namespace nk.Client {
 
 			public static VertexArray    Background;
 			public static RectangleShape BgFill;
-			public static RectangleShape TeskBar;
+			public static RectangleShape TitleBar;
 
 			static Sprites() {
 
@@ -42,18 +60,14 @@ namespace nk.Client {
 				//* ---------------------------------------| Make Upper Line |--------------------------------------- *//
 
 				{
-					TeskBar = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y * 0.05f));
-					TeskBar.FillColor = new Color(0, 0, 0, 50);
-					SpriteUnion.Add(TeskBar);
+					TitleBar = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y * 0.05f));
+					TitleBar.FillColor = new Color(0, 0, 0, 50);
+					SpriteUnion.Add(TitleBar);
 				}
 			}
 		}
 
-		private object? clicking = null;
-
 		protected override void Update(ClientTime _gameTime) {
-
-			if (MouseListener.Status)
 
 		}
 

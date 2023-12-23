@@ -28,6 +28,8 @@ namespace nk.Client {
 
 		public static void Initialize(ref RenderWindow _window) {
 			_window.MouseButtonPressed += (object? _sender, MouseButtonEventArgs _event) => {
+				Status.DragStartPosition = new Vector2i(_event.X, _event.Y);
+
 				if(_event.Button == Mouse.Button.Left) {
 					Status.LeftClicked  = true;
 					Status.LeftClicking = true;
