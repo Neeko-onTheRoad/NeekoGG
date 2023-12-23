@@ -1,22 +1,22 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using System.Runtime.CompilerServices;
 
 namespace nk.Client {
 	public class MouseStatus() {
-		public bool     LeftClicked     = false;
-		public bool     RightClicked    = false;
-		public bool     MiddleClicked   = false;
-		public bool     LeftRelesed     = false;
-		public bool     RightRelesed    = false;
-		public bool     MiddleRelesed   = false;
-		public bool     LeftClicking    = false;
-		public bool     RightClicking   = false;
-		public bool     MiddleClicking  = false;
-		public Vector2i Position        = new Vector2i(0, 0);
-		public Vector2i PositionDelta   = new Vector2i(0, 0);
-		public float    WheelLevel      = 0f;
+		public bool     LeftClicked       = false;
+		public bool     RightClicked      = false;
+		public bool     MiddleClicked     = false;
+		public bool     LeftRelesed       = false;
+		public bool     RightRelesed      = false;
+		public bool     MiddleRelesed     = false;
+		public bool     LeftClicking      = false;
+		public bool     RightClicking     = false;
+		public bool     MiddleClicking    = false;
+		public Vector2i DragStartPosition = new Vector2i(0, 0);
+		public Vector2i Position          = new Vector2i(0, 0);
+		public Vector2i PositionDelta     = new Vector2i(0, 0);
+		public float    WheelLevel        = 0f;
 	}
 	
 	public static class MouseListener {

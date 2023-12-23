@@ -53,17 +53,8 @@ namespace nk.Client {
 
 		protected override void Update(ClientTime _gameTime) {
 
-			if (MouseListener.Status.Position.Y <= Window.Size.Y * 0.05f) {
-				if (MouseListener.Status.LeftClicked) {
-					clicking = Sprites.TeskBar;
-				}
-			}
+			if (MouseListener.Status)
 
-			if (clicking != null && !MouseListener.Status.LeftClicking) clicking = null;
-
-			if (clicking == Sprites.TeskBar) {
-				Window.Position -= MouseListener.Status.PositionDelta ;
-			}
 		}
 
 		protected override void Draw(ClientTime gameTime) {
