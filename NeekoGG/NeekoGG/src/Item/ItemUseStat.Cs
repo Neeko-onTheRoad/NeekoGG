@@ -1,12 +1,14 @@
-﻿namespace nk {
+﻿using SFML.Graphics;
+
+namespace nk {
 	public class ItemUseStat {
 
-		public static NamedSprite IconRefill { get; }
-		public static NamedSprite IconConsum { get; }
+		public static Sprite IconRefill { get; }
+		public static Sprite IconConsum { get; }
 
 		static ItemUseStat() {
-			IconRefill = new NamedSprite(Res.Icon.Item.Use.Refill);
-			IconConsum = new NamedSprite(Res.Icon.Item.Use.Refill);
+			IconRefill = new Sprite(Res.Icon.Item.Use.Refill);
+			IconConsum = new Sprite(Res.Icon.Item.Use.Refill);
 		}
 
 		public enum Flag {

@@ -11,9 +11,9 @@ namespace nk {
 						return;
 					}
 
-					else if (value is string)      Value = value;
-					else if (value is NamedSprite) Value = value;
-					else if (value is Color)       Value = value;
+					else if (value is string) Value = value;
+					else if (value is Sprite) Value = value;
+					else if (value is Color)  Value = value;
 
 					else throw new Exception();
 				}
@@ -38,9 +38,9 @@ namespace nk {
 		public override string ToString() {
 			if (Value is string) return (string)Value;
 
-			if (Value is NamedSprite) {
-				NamedSprite result = (NamedSprite)Value;
-				return $"[file: {result.Name}]";
+			if (Value is Sprite) {
+				Sprite result = (Sprite)Value;
+				return result.ToString();
 			}
 
 			else return "";

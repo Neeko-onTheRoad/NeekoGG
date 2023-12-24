@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿#if false
+using SFML.Graphics;
 
 namespace nk {
 	public struct NamedTexture {
@@ -28,3 +29,4 @@ namespace nk {
 		}
 	}
 }
+#endif

@@ -1,8 +1,10 @@
-﻿namespace nk {
+﻿using SFML.Graphics;
+
+namespace nk {
     public class Item {
 
         public string      Name        { get; } = "N/A";
-        public NamedSprite Icon        { get; } = new NamedSprite();
+        public Sprite      Icon        { get; } = new Sprite();
         public int?        Price       { get; } = null;
         public string?     Featues     { get; } = null;
         public string?     Unique      { get; } = null;

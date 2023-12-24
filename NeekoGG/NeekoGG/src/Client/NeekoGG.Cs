@@ -13,7 +13,15 @@ namespace nk.Client {
 		protected override void Initialize() {
 			Window.MouseButtonPressed += (object? _sender, MouseButtonEventArgs _event) => {
 				if (_event.Button == Mouse.Button.Left) {
-					if (MouseListener.Status.Position.Y <= Sprites.TitleBar.Size.Y) {
+					if (IsHovering(Sprites.CloseButtonBg)) {
+						clicking = Sprites.CloseButtonBg;
+					}
+
+					else if (IsHovering(Sprites.MinimizeButtonBg)) {
+						clicking = Sprites.MinimizeButtonBg;
+					}
+
+					else if (MouseListener.Status.Position.Y <= Sprites.TitleBar.Size.Y) {
 						clicking = Sprites.TitleBar;
 					}
 				}
@@ -21,6 +29,13 @@ namespace nk.Client {
 
 			Window.MouseButtonReleased += (object? _sender, MouseButtonEventArgs _event) => {
 				if (_event.Button == Mouse.Button.Left) {
+					if (clicking == Sprites.CloseButtonBg && IsHovering(Sprites.CloseButtonBg)) {
+						Window.Close();
+					}
+					else if (clicking == Sprites.MinimizeButtonBg && IsHovering(Sprites.MinimizeButtonBg)) {
+						ShowWindowAsync(Window.SystemHandle, 6 | 2);
+					}
+
 					if (clicking != null) clicking = null;
 				}
 			};
@@ -29,6 +44,9 @@ namespace nk.Client {
 				if (clicking == Sprites.TitleBar) {
 					Window.Position -= (MouseListener.Status.DragStartPosition - new Vector2i(_event.X ,_event.Y));
 				}
+				
+				Sprites.CloseButtonBg.Color = Sprites.CloseButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(255, 255, 255, 0);
+				Sprites.MinimizeButtonBg.Color = Sprites.MinimizeButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(255, 255, 255, 0);
 			};
 		}
 
@@ -37,8 +55,12 @@ namespace nk.Client {
 
 			public static VertexArray    Background;
 			public static RectangleShape BgFill;
+
 			public static RectangleShape TitleBar;
 			public static Sprite         CloseButton;
+			public static Sprite         CloseButtonBg;
+			public static Sprite         MinimizeButton;
+			public static Sprite         MinimizeButtonBg;
 
 			static Sprites() {
 
@@ -68,17 +90,45 @@ namespace nk.Client {
 				}
 
 				{ // Close Button
-					CloseButton = new Sprite(Icon.App.CloseButton.Texture);
+					CloseButtonBg          = new Sprite(Icon.App.RoundedRectangle);
+					CloseButtonBg.Color    = new Color(255, 255, 255, 0);
+					CloseButtonBg.Position = new Vector2f(
+						WindowSize.X - (Icon.App.CloseButton.Size.X * 2.5f) - (Icon.App.RoundedRectangle.Size.X / 2f),
+						(TitleBar.Size.Y / 2f) - (Icon.App.RoundedRectangle.Size.Y / 2)
+					);
+					SpriteUnion.Add(CloseButtonBg);
+
+					CloseButton          = new Sprite(Icon.App.CloseButton);
 					CloseButton.Color    = new Color(255, 255, 255, 100);
-					CloseButton.Scale    = new Vector2f(0.7f, 0.7f);
-					CloseButton.Position = new Vector2f(WindowSize.X - 100, (TitleBar.Size.Y / 2) - (Icon.App.CloseButton.Texture.Size.Y / 2));
+					CloseButton.Position = new Vector2f(
+						WindowSize.X - (Icon.App.CloseButton.Size.X * 3f),
+						(TitleBar.Size.Y / 2f) - (Icon.App.CloseButton.Size.Y / 2f)
+					);
 					SpriteUnion.Add(CloseButton);
 				}
 
+				{ // MinimizeButton
+					MinimizeButtonBg          = new Sprite(Icon.App.RoundedRectangle);
+					MinimizeButtonBg.Color    = new Color(255, 255, 255, 0);
+					MinimizeButtonBg.Position = new Vector2f(
+						WindowSize.X - (Icon.App.MinimizeButton.Size.X * 5.5f) - (Icon.App.RoundedRectangle.Size.X / 2f),
+						(TitleBar.Size.Y / 2f) - (Icon.App.RoundedRectangle.Size.Y / 2)
+					);
+					SpriteUnion.Add(MinimizeButtonBg);
+
+					MinimizeButton          = new Sprite(Icon.App.MinimizeButton);
+					MinimizeButton.Color    = new Color(255, 255, 255, 100);
+					MinimizeButton.Position = new Vector2f(
+						WindowSize.X - (Icon.App.CloseButton.Size.X * 6f),
+						(TitleBar.Size.Y / 2f) - (Icon.App.CloseButton.Size.Y * CloseButton.Scale.Y / 2f)
+					);
+					SpriteUnion.Add(MinimizeButton);
+				}
 			}
 		}
 
 		protected override void Update(ClientTime _gameTime) {
+
 		}
 
 		protected override void Draw(ClientTime gameTime) {

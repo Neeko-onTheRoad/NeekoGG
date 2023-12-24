@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿#if false
+using SFML.Graphics;
 
 namespace nk {
 	public struct NamedSprite {
@@ -36,3 +37,4 @@ namespace nk {
 		}
 	}
 }
+#endif

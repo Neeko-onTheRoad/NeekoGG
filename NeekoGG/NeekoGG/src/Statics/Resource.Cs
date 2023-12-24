@@ -3,27 +3,25 @@
 namespace nk.Res {
 	public static class Icon {
 		public static class App {
-			public static NamedTexture CloseButton    { get; }
-			public static NamedTexture MinimizeButton { get; }
+			public static Texture CloseButton      { get; }
+			public static Texture MinimizeButton   { get; }
+			public static Texture RoundedRectangle { get; }
 
 			static App() {
-				Texture closeButtonTexture = new Texture("./NeekoGG/res/App/CloseButton.png");
-
-				CloseButton    = new NamedTexture(closeButtonTexture, "CloseButton");
+				CloseButton      = new Texture("./NeekoGG/res/App/CloseButton.png");
+				MinimizeButton   = new Texture("./NeekoGG/res/App/MinimizeButton.png");
+				RoundedRectangle = new Texture("./NeekoGG/res/App/RoundedRectangle.png");
 			}
 		}
 
 		public static class Item {
 			public static class Use {
-				public static NamedTexture Refill { get; }
-				public static NamedTexture Consum { get; }
+				public static Texture Refill { get; }
+				public static Texture Consum { get; }
 
 				static Use() {
-					Texture refillTexture = new Texture("./NeekoGG/res/Icons/ItemUse_Refill.png");
-					Texture consumTexture = new Texture("./NeekoGG/res/Icons/ItemUse_Consum.png");
-
-					Refill = new NamedTexture(refillTexture, "ItemUse_Refill");
-					Consum = new NamedTexture(consumTexture, "ItemUse_Consum");
+					Refill = new Texture("./NeekoGG/res/Icons/ItemUse_Refill.png");
+					Consum = new Texture("./NeekoGG/res/Icons/ItemUse_Consum.png");
 				}
 			}
 		}

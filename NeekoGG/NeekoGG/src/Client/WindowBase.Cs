@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
+using System.Runtime.InteropServices;
 
 namespace nk.Client {
 	public abstract class WindowBase {
@@ -70,7 +71,7 @@ namespace nk.Client {
 				(uint)(VideoMode.DesktopMode.Height * (4f / 6f) * _size)
 			);
 			Window.Close();
-			Window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None, new ContextSettings(0u, 0u, 8u));
+			Window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None, new ContextSettings(0u, 0u, 1u));
 			Window.Closed += WindowClosed;
 			
 			Initialize();
@@ -88,5 +89,12 @@ namespace nk.Client {
 		private void UpdateEventHandlers(float _deltaTime) {
 			MouseListener.Update(_deltaTime);
 		}
+
+		protected bool IsHovering(Sprite _sprite) {
+			return _sprite.GetGlobalBounds().Contains(MouseListener.Status.Position.X, MouseListener.Status.Position.Y);
+		}
+
+		[DllImport("user32.dll")]
+		public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 	}
 }
