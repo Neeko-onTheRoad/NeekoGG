@@ -70,7 +70,7 @@ namespace nk.Client {
 				(uint)(VideoMode.DesktopMode.Height * (4f / 6f) * _size)
 			);
 			Window.Close();
-			Window      = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None);
+			Window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), WindowTitle, Styles.None, new ContextSettings(0u, 0u, 8u));
 			Window.Closed += WindowClosed;
 			
 			Initialize();

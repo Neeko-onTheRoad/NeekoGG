@@ -20,7 +20,7 @@
 		private string?       Name        { get; } = null;
 		private InhabitString Description { get; } = new InhabitString();
 
-		private byte?  remainingCount    = 0;
+		private byte?  wremainingCount    = 0;
 		private float? remainingCoolTime = 0f;
 
 		public ItemUseStat(

@@ -15,5 +15,9 @@
 			Int     = _int;
 			Percent = _percent;
 		}
+
+		public override string ToString() {
+			return $"[IntAndPercent] Int: {Int}, Percent: {Percent}";
+		}
 	}
 }

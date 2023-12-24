@@ -30,5 +30,9 @@ namespace nk {
 			Sprite = new Sprite(_tna.Texture);
 			Name   = _tna.Name;
 		}
+
+		public override string ToString() {
+			return $"[NamedSprite] {Name}";
+		}
 	}
 }

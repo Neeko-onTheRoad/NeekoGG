@@ -22,5 +22,9 @@ namespace nk {
 			Texture = _texture;
 			Name    = _name;
 		}
+
+		public override string ToString() {
+			return $"[NamedTexture] {Name}";
+		}
 	}
 }
