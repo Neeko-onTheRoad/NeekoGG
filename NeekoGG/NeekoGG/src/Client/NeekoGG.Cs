@@ -33,7 +33,7 @@ namespace nk.Client {
 						Window.Close();
 					}
 					else if (clicking == Sprites.MinimizeButtonBg && IsHovering(Sprites.MinimizeButtonBg)) {
-						ShowWindowAsync(Window.SystemHandle, 6 | 2);
+						ShowWindowAsync(Window.SystemHandle, 6);
 					}
 
 					if (clicking != null) clicking = null;
@@ -45,13 +45,12 @@ namespace nk.Client {
 					Window.Position -= (MouseListener.Status.DragStartPosition - new Vector2i(_event.X ,_event.Y));
 				}
 				
-				Sprites.CloseButtonBg.Color = Sprites.CloseButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(255, 255, 255, 0);
-				Sprites.MinimizeButtonBg.Color = Sprites.MinimizeButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(255, 255, 255, 0);
+				Sprites.CloseButtonBg.Color = Sprites.CloseButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(0, 0, 0, 0);
+				Sprites.MinimizeButtonBg.Color = Sprites.MinimizeButtonBg.GetGlobalBounds().Contains(_event.X, _event.Y) ? new Color(255, 255, 255, 20) : new Color(0, 0, 0, 0);
 			};
 		}
 
-		private static class Sprites {
-			public static List<Drawable> SpriteUnion;
+		private class Sprites : SpritesBase {
 
 			public static VertexArray    Background;
 			public static RectangleShape BgFill;
@@ -64,16 +63,14 @@ namespace nk.Client {
 
 			static Sprites() {
 
-				SpriteUnion = new List<Drawable>();
-
 				//* ---------------------------------------| Make Background |--------------------------------------- *//
 
 				{
 					Background = new VertexArray(PrimitiveType.Quads, 4);
-					Background[0] = new Vertex(new Vector2f(0,            0           ), new Color(73,  0, 122));
-					Background[1] = new Vertex(new Vector2f(WindowSize.X, 0           ), new Color(136, 0, 109));
-					Background[2] = new Vertex(new Vector2f(WindowSize.X, WindowSize.Y), new Color(73,  0, 122));
-					Background[3] = new Vertex(new Vector2f(0,            WindowSize.Y), new Color(30,  0, 129));
+					Background[0] = new Vertex(new Vector2f(0,            0           ), Colors.Nk_Purple);
+					Background[1] = new Vertex(new Vector2f(WindowSize.X, 0           ), Colors.Nk_Magenta);
+					Background[2] = new Vertex(new Vector2f(WindowSize.X, WindowSize.Y), Colors.Nk_Purple);
+					Background[3] = new Vertex(new Vector2f(0,            WindowSize.Y), Colors.Nk_Blue);
 					SpriteUnion.Add(Background);
 
 					BgFill = new RectangleShape(new Vector2f(WindowSize.X, WindowSize.Y));
@@ -128,11 +125,11 @@ namespace nk.Client {
 		}
 
 		protected override void Update(ClientTime _gameTime) {
-
+			
 		}
 
 		protected override void Draw(ClientTime gameTime) {
-			foreach (var sprite in Sprites.SpriteUnion) {
+			foreach (var sprite in SpritesBase.SpriteUnion) {
 				Window.Draw(sprite);
 			}
 		}
