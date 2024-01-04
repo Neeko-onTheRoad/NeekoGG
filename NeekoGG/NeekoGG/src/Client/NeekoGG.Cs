@@ -50,7 +50,7 @@ namespace nk.Client {
 			};
 		}
 
-		private class Sprites : SpritesBase {
+		private class Sprites {
 
 			public static VertexArray    Background;
 			public static RectangleShape BgFill;
@@ -124,14 +124,13 @@ namespace nk.Client {
 			}
 		}
 
-		protected override void Update(ClientTime _gameTime) {
+		protected override void Update(ClientTime _clientTime) {
 			
 		}
 
 		protected override void Draw(ClientTime gameTime) {
-			foreach (var sprite in SpritesBase.SpriteUnion) {
-				Window.Draw(sprite);
-			}
+			SpriteUnion.ForEach(Window.Draw);
+			
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using SFML.Window;
 using SFML.System;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace nk.Client {
 	public abstract class WindowBase {
@@ -14,9 +15,10 @@ namespace nk.Client {
 
 		protected static Vector2u WindowSize{ get; private set; }
 
-		private RenderWindow window;
-		public  RenderWindow Window     { get { return window; } protected set { window = value; } }
-		public  ClientTime   ClientTime { get; protected set; }
+		private RenderWindow    window;
+		public  RenderWindow    Window     { get { return window; } protected set { window = value; } }
+		public  ClientTime      ClientTime { get; protected set; }
+		public  List<SceneBase> Scenes     { get; protected set; }
 
 		protected WindowBase(string _title) {
 			window          = new RenderWindow(new VideoMode(0, 0), "");
@@ -24,7 +26,10 @@ namespace nk.Client {
 			TargetFPS       = 144;
 			TimeUntilUpdate = 1f/TargetFPS;
 			ClientTime      = new ClientTime();
+			Scenes          = new List<SceneBase>();
 		}
+
+		public static SpriteUnion SpriteUnion { get; protected set; } = new SpriteUnion();
 
 		public void Run() {
 			CreateNewWindow(1f);
@@ -62,8 +67,8 @@ namespace nk.Client {
 		}
 
 		protected abstract void Initialize();
-		protected abstract void Update(ClientTime _gameTime);
-		protected abstract void Draw(ClientTime _gameTime);
+		protected abstract void Update(ClientTime _clientTime);
+		protected abstract void Draw(ClientTime _clientTime);
 
 		protected void CreateNewWindow(float _size) {
 			WindowSize = new Vector2u(
