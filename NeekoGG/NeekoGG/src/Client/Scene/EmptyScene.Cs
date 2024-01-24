@@ -1,19 +1,21 @@
 ﻿using SFML.System;
 
 namespace nk.Client {
-	public class EmptyScene : SceneBase {
-
-		public EmptyScene(Vector2u s, Vector2f o) : base(s, o) {}
-
-		
+	public class EmptyScene(Vector2u s, Vector2f o) : SceneBase(s, o) {
+		protected class Sprites {
+			
+		}
 		
 		public override void Initialize() {
+			
 		}
 
 		public override void Update(ClientTime _clientTime) {
+			
 		}
 
 		public override void Draw(ClientTime _clientTime) {
+			
 		}
 	}
 }

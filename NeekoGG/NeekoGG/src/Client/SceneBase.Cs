@@ -6,7 +6,7 @@ namespace nk {
 		public Vector2u SceneSize   { get; protected set; }
 		public Vector2f SceneOffset { get; protected set; }
 
-		public SpriteUnion SpriteUnion { get; protected set; } = new SpriteUnion();
+		protected SpriteUnion SpriteUnion { get; set; } = [];
 
 		public SceneBase(Vector2u _size, Vector2f _offset) {
 			SceneSize   = _size;

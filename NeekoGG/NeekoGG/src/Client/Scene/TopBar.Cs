@@ -1,9 +1,8 @@
 ﻿using SFML.System;
 
 namespace nk.Client {
-	public class ItemWiki(Vector2u s, Vector2f o) : SceneBase(s, o) {
+	public class TopBar(Vector2u s, Vector2f o) : SceneBase(s, o) {
 		protected class Sprites {
-			
 		}
 		
 		public override void Initialize() {
